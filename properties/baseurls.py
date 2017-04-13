@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 # -*- author: kexiaohong -*-
 
-
+#   URL信息常量分类
 url = ""
 baseurl = ""
 hosturl = ""

@@ -20,11 +20,12 @@ def song(i):
 
 if __name__ == '__main__':
     # Trampline.tramp(song,0)
-    # string = '<font></font>可<font></font>可1<font></font>可2<font></font>'
+    string = '<font></font>可<font><!-- adasd --></font>可1<font></font>可2<font></font>'
     # reobj = re.compile("<[^<>]+>")
-    # str = re.sub("<[^<>]+>","",string)
+    str = re.sub("<[^<>]+>","",string)
+    print str
+    # str = string.replace("", "<[^<>]+>")
     # print str
-    # # str = string.replace("", "<[^<>]+>")sadf
     # result,number = reobj.subn("","<[^<>]+>")
     # print result,number
     # baseurl = str(raw_input('http://tieba.baidu.com/p/'))
@@ -39,4 +40,4 @@ if __name__ == '__main__':
     # MusicRecord.clear()
     # print MusicRecord.getMusicName()
     # print MusicRecord.getUuid()
-    print StringUtil.replace("asdfasdf'asdfasdf'","'", " ")
+    # print StringUtil.replace("asdfasdf'asdfasdf'","'", " ")

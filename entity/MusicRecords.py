@@ -137,5 +137,6 @@ def tostring():
         "music_desc": getmusicdesc(),
         "music_url_online": getmusiconline(),
         "music_url_download": getmusicdownload(),
-        "music_type": getmusictype()
+        "music_type": getmusictype(),
+        "music_source": getmusicsource()
     }

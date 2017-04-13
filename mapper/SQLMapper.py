@@ -5,7 +5,7 @@ from pythonMusic.properties import jdbc
 from pythonMusic.properties import const
 
 
-class SQLHelper(object):
+class SQLMapper(object):
     __db__ = None
 
     def __init__(self):
@@ -21,13 +21,15 @@ class SQLHelper(object):
             cursor.execute(sql)
             self.__db__.commit()
         except:
-            print  const.ERROR + ":" + sql
+            print  const.ERROR + sql
             self.__db__.rollback()
         self.closedb()
 
 
 #   设置参数
-    def getsql(self,sql,params):
+    def getsql(self,sql,params = None):
+        if params is None:
+            return sql
         try:
             paramStr = "("
             for index in range(len(params)):
@@ -61,34 +63,34 @@ class SQLHelper(object):
 ######################################对外接口###################################################
 #   获取数据
 def getdata(sql):
-    sqlHelper = SQLHelper()
-    sqlHelper.__db__ = sqlHelper.getconnection()
-    cursor = sqlHelper.__db__.cursor()
+    sqlmapper = SQLMapper()
+    sqlmapper.__db__ = sqlmapper.getconnection()
+    cursor = sqlmapper.__db__.cursor()
     results = None
     try:
         cursor.execute(sql)
         results = cursor.fetchall()
     except BaseException,e:
         print e.message
-        sqlHelper.__db__.rollback()
-    sqlHelper.closedb()
+        sqlmapper.__db__.rollback()
+    sqlmapper.closedb()
     return results
 
 
 #   插入数据
-def insert(sql,params):
-    print "----"+ const.INSERT +"----"
-    sqlHelper = SQLHelper()
-    SQL = sqlHelper.getsql(sql,params)
-    sqlHelper.execute(SQL)
+def insert(sql,params = None):
+    print const.INSERT
+    sqlmapper = SQLMapper()
+    SQL = sqlmapper.getsql(sql,params)
+    sqlmapper.execute(SQL)
 
 
 #   更新
-def update(sql,params):
-    print "----" + const.UPDATE + "----"
-    sqlHelper = SQLHelper()
-    SQL = sqlHelper.getsql(sql, params)
-    sqlHelper.execute(SQL)
+def update(sql,params = None):
+    print const.UPDATE
+    sqlmapper = SQLMapper()
+    SQL = sqlmapper.getsql(sql, params)
+    sqlmapper.execute(SQL)
 
 
 #   测试主函数
