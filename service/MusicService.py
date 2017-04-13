@@ -4,12 +4,14 @@ from pythonMusic.mapper import UrlMapper
 from pythonMusic.entity import MusicRecords
 from pythonMusic.properties import tagattr
 from pythonMusic.utils import TagUtils
+from pythonMusic.properties import Music
 
 
 class MusicService(object):
 
     def __insert__(self):
         pass
+
 
 #   插入分类推荐信息
 def insertRankList(ranknode,musictype):
@@ -19,7 +21,7 @@ def insertRankList(ranknode,musictype):
         url = TagUtils.gethtmlcontent(aSong, tagattr.__HREF__)
         if UrlMapper.isused(url) != 0:
             continue
-        UrlMapper.insert(url, 'music_url_used')
+        UrlMapper.insert(url, Music.MUSIC_RANK)
         MusicRecords.setmusicname(TagUtils.gethtmlcontent(aSong, tagattr.__TITLE__))
         MusicRecords.setmusiconline(url)
         author = node.find_all('span', class_='author_list')[0]

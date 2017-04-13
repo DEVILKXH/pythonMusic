@@ -1,7 +1,14 @@
 # -*- coding: UTF-8 -*-
 # -*- author: kexiaohong -*-
 
-RANKLISTWRAPPER = "ranklist-wrapper"
+
+# table
+MUSIC_RANK = "music_rank"
+MUSIC_RECORD = "music_record"
+MUSIC_RECORDS = "music_records"
+MUSIC_URL_UNUNSE = "music_url_unuse"
+MUSIC_URL_USED = "music_url_used"
+
 
 #   音乐按照歌曲的大类等分类信息
 MusicType = ("新歌",
@@ -18,3 +25,6 @@ MusicTypeClass = ( "mod-newsong",
                    "mod-oldsong",
                    "mod-netsong",
                    "mod-originsong")
+
+#  音乐首页容器类
+RANKLISTWRAPPER = "ranklist-wrapper"
