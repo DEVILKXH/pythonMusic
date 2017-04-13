@@ -2,6 +2,7 @@
 # -*- author: kexiaohong -*-
 import UUIDUtil
 
+
 class MusicRecord(object):
 
     __uuid__ = None

@@ -5,9 +5,12 @@ import SQLUtil
 import ConstData
 import UrlUtil
 import Trampline
+import StringUtil
+import sys
 import MongoDBUtil
 from bs4 import BeautifulSoup
-
+reload(sys)                         # 2
+sys.setdefaultencoding('utf-8')
 
 class SongUtil(object):
     __urlList__ = []
@@ -81,32 +84,41 @@ class SongUtil(object):
 
 #   获得分类的信息
     def __getClassifyMusic__(self,soup):
-        for node in soup.find_all('div', class_='song-item'):
-            music_album = ""
-            music_singer = ""
-            songTitle = node.find_all('span', class_='song-title')[0].find('a')
-            music_name = self.__getcontent__(songTitle,self.__CONTENT__)
-            music_desc = self.__getcontent__(songTitle,self.__TITLE__)
-            music_url = self.__getcontent__(songTitle,self.__HREF__)
-            asongSinger = node.find_all('span', class_='singer')
-            if asongSinger is not None and len(asongSinger) > 0:
-                songSinger = asongSinger[0].find('a')
-                if songSinger is not None and len(songSinger) > 0:
-                    music_singer = self.__getcontent__(songSinger,self.__TITLE__)
-            asongAlbum = node.find_all('span', class_='album-title')
-            if asongAlbum is not None and len(asongAlbum) > 0:
-                songAlbum = asongAlbum[0].find('a')
-                if songAlbum is not None and len(songAlbum) > 0:
-                    music_album = self.__getcontent__(songAlbum,self.__TITLE__)
-            #插入mysql数据库
-            # sql = "insert into music_record(UUID,music_name,music_singer,music_album,music_url_online) values"
-            # params = [UUIDUtil.getuuid(),music_name,music_singer,music_album,music_url]
-            # SQLUtil.insert(sql,params)
-            #插入mongodb数据库
-            MongoDBUtil.insert(musicName=music_name,musicSinger=music_singer,musicAlbum=music_album,musicUrlOnline=music_url,musicDesc=music_desc)
-            print music_name,music_singer,music_album,music_url,music_desc
-        self.__getPageNum__(soup)
-        yield self.__getSongs__()
+        try:
+            for node in soup.find_all('div', class_='song-item'):
+                music_album = ""
+                music_singer = ""
+                songTitle = node.find_all('span', class_='song-title')[0].find('a')
+                music_name = self.__getcontent__(songTitle,self.__CONTENT__)
+                music_desc = self.__getcontent__(songTitle,self.__TITLE__)
+                music_url = self.__getcontent__(songTitle,self.__HREF__)
+                asongSinger = node.find_all('span', class_='singer')
+                if asongSinger is not None and len(asongSinger) > 0:
+                    songSinger = asongSinger[0].find('a')
+                    if songSinger is not None and len(songSinger) > 0:
+                        music_singer = self.__getcontent__(songSinger,self.__TITLE__)
+                asongAlbum = node.find_all('span', class_='album-title')
+                if asongAlbum is not None and len(asongAlbum) > 0:
+                    songAlbum = asongAlbum[0].find('a')
+                    if songAlbum is not None and len(songAlbum) > 0:
+                        music_album = self.__getcontent__(songAlbum,self.__TITLE__)
+                #插入mysql数据库
+                sql = "insert into music_record(UUID,music_name,music_singer,music_album,music_url_online,music_desc) values"
+                params = [UUIDUtil.getuuid(),
+                          StringUtil.replace(music_name, "'", " "),
+                          StringUtil.replace(music_singer, "'", " "),
+                          StringUtil.replace(music_album, "'", " "),
+                          StringUtil.replace(music_url, "'", " "),
+                          StringUtil.replace(music_desc, "'", " ")]
+                SQLUtil.insert(sql,params)
+                #插入mongodb数据库
+                # MongoDBUtil.insert(musicName=music_name,musicSinger=music_singer,musicAlbum=music_album,musicUrlOnline=music_url,musicDesc=music_desc)
+                # print music_name,music_singer,music_album,music_url,music_desc
+            self.__getPageNum__(soup)
+        except:
+            print "error"
+        finally:
+            yield self.__getSongs__()
 
 #   获取url中的歌曲
     def __getSongs__(self):
@@ -116,7 +128,7 @@ class SongUtil(object):
             self.__usedList__.append(url)
             html = UrlUtil.get_content(url)
             if html is None:
-                yield  self.__getSongs__(self.TYPE)
+                yield  self.__getSongs__()
             else:
                 soup = BeautifulSoup(html, 'html5lib')
                 print url
@@ -144,12 +156,15 @@ def getindexsongs(soup):
                     singer += (songUtil.__getcontent__(authorlist, songUtil.__TITLE__) + ',')
                 music_singer = singer[0:len(singer) - 1]
                 # 插入mysql
-                # params = [UUIDUtil.getuuid(), music_name, music_singer, music_url]
-                # sql = """insert into music_record(UUID,music_name,music_singer,music_url_online) values"""
-                # SQLUtil.insert(sql, params)
+                params = [UUIDUtil.getuuid(),
+                          StringUtil.replace(music_name, "'", " "),
+                          StringUtil.replace(music_singer, "'", " "),
+                          StringUtil.replace(music_url, "'", " ")]
+                sql = """insert into music_record(UUID,music_name,music_singer,music_url_online) values"""
+                SQLUtil.insert(sql, params)
                 # 插入mongodb
-                MongoDBUtil.insert(musicName=music_name, musicSinger=music_singer, musicUrlOnline=music_url)
-                print music_name,music_singer,music_url
+                # MongoDBUtil.insert(musicName=music_name, musicSinger=music_singer, musicUrlOnline=music_url)
+                # print music_name,music_singer,music_url
 
 #   获取分类数据
 def gettypesongs(soup):

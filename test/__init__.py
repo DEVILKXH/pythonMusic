@@ -4,6 +4,7 @@
 import Trampline
 import re
 import MusicRecord
+import StringUtil
 
 def classify(i):
     print i
@@ -32,9 +33,10 @@ if __name__ == '__main__':
     # reobj = re.compile()
     # result,number = re.sub(",|，","",string)
     # print result
-    MusicRecord.setMusicName("kxh")
-    print MusicRecord.getMusicName()
-    print MusicRecord.getUuid()
-    MusicRecord.clear()
-    print MusicRecord.getMusicName()
-    print MusicRecord.getUuid()
+    # MusicRecord.setMusicName("kxh")
+    # print MusicRecord.getMusicName()
+    # print MusicRecord.getUuid()
+    # MusicRecord.clear()
+    # print MusicRecord.getMusicName()
+    # print MusicRecord.getUuid()
+    print StringUtil.replace("asdfasdf'asdfasdf'","'", " ")

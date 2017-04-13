@@ -1,13 +1,15 @@
 # -*- coding: UTF-8 -*-
 # -*- author: kexiaohong -*-
 import MySQLdb
+from pythonMusic.properties import jdbc
+from pythonMusic.properties import const
 
 
 class SQLHelper(object):
     __db__ = None
 
     def __init__(self):
-        print "----SQL start----"
+        pass
 
 #   连接数据库
     def execute(self,sql):
@@ -19,7 +21,7 @@ class SQLHelper(object):
             cursor.execute(sql)
             self.__db__.commit()
         except:
-            print  "ERROR:" + sql
+            print  const.ERROR + ":" + sql
             self.__db__.rollback()
         self.closedb()
 
@@ -30,7 +32,7 @@ class SQLHelper(object):
             paramStr = "("
             for index in range(len(params)):
                 param = params[index]
-                if params is None:
+                if param is None:
                     param = ""
                 paramStr += ("'" + param + "',")
             paramStr = paramStr[0:len(paramStr) -1]
@@ -49,10 +51,10 @@ class SQLHelper(object):
 
 #   获取数据库连接
     def getconnection(self):
-        host = "127.0.0.1"
-        username = "root"
-        password = "evilkxh"
-        database = "music"
+        host = jdbc.host
+        username = jdbc.username
+        password = jdbc.password
+        database = jdbc.database
         db = MySQLdb.connect(host=host,user=username,passwd=password,db=database,charset='utf8')
         return db
 
@@ -75,10 +77,19 @@ def getdata(sql):
 
 #   插入数据
 def insert(sql,params):
-    print "----insert----"
+    print "----"+ const.INSERT +"----"
     sqlHelper = SQLHelper()
     SQL = sqlHelper.getsql(sql,params)
     sqlHelper.execute(SQL)
+
+
+#   更新
+def update(sql,params):
+    print "----" + const.UPDATE + "----"
+    sqlHelper = SQLHelper()
+    SQL = sqlHelper.getsql(sql, params)
+    sqlHelper.execute(SQL)
+
 
 #   测试主函数
 # if __name__ == "__main__":
