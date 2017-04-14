@@ -11,11 +11,13 @@ class MusicController(object):
 
 
 def getindexmusic(soup):
-    ranklist = TagUtils.gethtmlnodebyclass(soup, tagattr.__DIV__, Music.RANKLISTWRAPPER)
+    ranklist = TagUtils.gethtmlnodebyclass(soup, tagattr.__DIV__, Music.MODSONGRANK)
     i = 0
     for rankmusic in ranklist:
-        MusicService.insertRankList(rankmusic, Music.MusicType[i])
+        MusicType = rankmusic.find(class_='title')
+        MusicService.insertranklist(rankmusic, TagUtils.gethtmlcontent(MusicType,tagattr.__CONTENT__))
         i += 1
+
 
 def gettypemusic(soup):
     pass

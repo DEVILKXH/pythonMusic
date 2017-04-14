@@ -3,7 +3,7 @@
 import re
 from pythonMusic.properties import const
 from pythonMusic.properties import tagattr
-from pythonMusic.properties import baseurls
+from pythonMusic.properties import BaseUrl
 
 
 #   html标签工具类
@@ -20,8 +20,9 @@ class TagUtils(object):
     # 获取标签href的内容
     def __gettaghref__(self, tag):
         if tag.has_attr(tagattr.__HREF__) and tag[tagattr.__HREF__] is not None:
-            if tag[tagattr.__HREF__].find(baseurls.baiduhosturl, 0, 20) == -1:
-                return baseurls.baidubaseurl + "/" + tag[tagattr.__HREF__].strip()
+            print BaseUrl.getbaseurls()
+            if tag[tagattr.__HREF__].find(BaseUrl.getbaseurls()['url'], 0, 20) == -1:
+                return BaseUrl.getbaseurls()['baseurl'] + "/" + tag[tagattr.__HREF__].strip()
             else:
                 return tag[tagattr.__HREF__].strip()
         else:
@@ -30,7 +31,7 @@ class TagUtils(object):
     # 获取标签的内容
     def __gettagcontent__(self, tag):
         if tag is not None :
-            return re.sub("<[^<>]+>", "", tag).strip()
+            return re.sub("<[^<>]+>", "", str(tag)).strip()
         else:
             return const.NULL
 

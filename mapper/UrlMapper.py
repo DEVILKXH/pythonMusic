@@ -10,7 +10,7 @@ from pythonMusic.utils import UUIDUtil
 class UrlMapper(object):
 
     def __getconnection__(self,url,data = None):
-        try:
+        # try:
             timeout = random.choice(range(180, 380))
             value = {}
             value['username'] = ''
@@ -19,7 +19,7 @@ class UrlMapper(object):
             request = urllib2.Request(url=url)
             rep = urllib2.urlopen(request, timeout=timeout)
             return rep.read()
-        except:
+        # except:
             print url, " connect error"
             return None
 
@@ -31,14 +31,16 @@ def get_content(url,data = None):
 
 #   判断URL是否使用过
 def isused(url):
-    sql = "select count(0) from music_url_used where url = '%s'" % (url)
+    sql = "select count(0) from music_url_used where music_url = '%s'" % (url)
     result = SQLMapper.getdata(sql)
     count = 0
     for row in result:
-        count = row[0]
-    return count
+        if row[0] == 0:
+            return False
+    return True
 
 #   插入url
 def insert(url,table):
     sql = "insert into %s(uuid,music_url) values('%s','%s')" % (table,UUIDUtil.getuuid(),url)
+    print sql
     SQLMapper.insert(sql)

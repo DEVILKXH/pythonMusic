@@ -28,3 +28,5 @@ MusicTypeClass = ( "mod-newsong",
 
 #  音乐首页容器类
 RANKLISTWRAPPER = "ranklist-wrapper"
+MODSONGRANK = "mod-song-rank"
+SONG = "song"

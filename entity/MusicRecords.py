@@ -3,6 +3,7 @@
 #!/pythonMusic
 
 from pythonMusic.utils import UUIDUtil
+from pythonMusic.properties import BaseUrl
 
 
 #   音乐记录类
@@ -108,7 +109,7 @@ def setmusictype(musicType):
 
 def getmusicsource():
     if MusicRecords.__musicSource__ is None:
-        MusicRecords.__musicSource__ = ""
+        MusicRecords.__musicSource__ = BaseUrl.getbaseurls()['url']
     return MusicRecords.__musicSource__
 
 

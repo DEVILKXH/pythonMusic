@@ -1,5 +1,8 @@
 # -*- coding: UTF-8 -*-
 # -*- author: kexiaohong -*-
+import sys
+reload(sys)                         # 2
+sys.setdefaultencoding('utf-8')
 
 
 #   字符串操作工具类
