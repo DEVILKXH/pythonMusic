@@ -82,12 +82,22 @@ def insert(sql,params = None):
     print const.INSERT
     sqlmapper = SQLMapper()
     SQL = sqlmapper.getsql(sql,params)
+    print SQL
     sqlmapper.execute(SQL)
 
 
 #   更新
 def update(sql,params = None):
     print const.UPDATE
+    sqlmapper = SQLMapper()
+    SQL = sqlmapper.getsql(sql, params)
+    print SQL
+    sqlmapper.execute(SQL)
+
+
+#   删除
+def delete(sql,params = None):
+    print const.DELETE
     sqlmapper = SQLMapper()
     SQL = sqlmapper.getsql(sql, params)
     sqlmapper.execute(SQL)

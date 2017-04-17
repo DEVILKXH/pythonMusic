@@ -8,21 +8,21 @@ from pythonMusic.properties import BaseUrl
 
 #   html标签工具类
 class TagUtils(object):
-    def __init__(self):
-        pass
+
+    __baseurl__ = ""
+
     #   获取标签的title内容
     def __gettagtitle__(self, tag):
         if tag.has_attr(tagattr.__TITLE__) and tag[tagattr.__TITLE__] is not None:
             return tag[tagattr.__TITLE__].strip()
         else:
-            return self.__getTagContent__(tag)
+            return self.__gettagcontent__(tag)
 
     # 获取标签href的内容
     def __gettaghref__(self, tag):
         if tag.has_attr(tagattr.__HREF__) and tag[tagattr.__HREF__] is not None:
-            print BaseUrl.getbaseurls()
-            if tag[tagattr.__HREF__].find(BaseUrl.getbaseurls()['url'], 0, 20) == -1:
-                return BaseUrl.getbaseurls()['baseurl'] + "/" + tag[tagattr.__HREF__].strip()
+            if tag[tagattr.__HREF__].find(TagUtils.__baseurl__['url'], 0, 20) == -1:
+                return TagUtils.__baseurl__['baseurl'] + "/" + tag[tagattr.__HREF__].strip()
             else:
                 return tag[tagattr.__HREF__].strip()
         else:
@@ -62,7 +62,8 @@ class TagUtils(object):
 
 
 #   获取标签属性内容
-def gethtmlcontent(tag, attr):
+def gethtmlcontent(tag, attr,baseurl = ""):
+    TagUtils.__baseurl__ = baseurl
     tagUtils = TagUtils()
     return tagUtils.__gethtmlcontent__(tag, attr)
 

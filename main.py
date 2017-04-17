@@ -11,9 +11,15 @@ if __name__ == "__main__":
     print const.START
     BaseUrl.setbaseurls(const.BAIDU)
     print BaseUrl.getbaseurls()
-    html = UrlMapper.get_content(BaseUrl.getbaseurls()['baseurl'])
+    html = UrlMapper.get_content(BaseUrl.getbaseurls()['connect'])
     if html is not None:
         soup = BeautifulSoup(html,'html5lib')
-        MusicController.getindexmusic(soup)
-        MusicController.gettypemusic(soup)
+        MusicController.getindexmusic(soup,BaseUrl.getbaseurls())
+
+    BaseUrl.setbaseurls(const.BAIFUTAG)
+    print BaseUrl.getbaseurls()
+    html = UrlMapper.get_content(BaseUrl.getbaseurls()['connect'])
+    if html is not None:
+        soup = BeautifulSoup(html, 'html5lib')
+        MusicController.gettypemusic(soup, BaseUrl.getbaseurls())
 

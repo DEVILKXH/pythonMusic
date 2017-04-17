@@ -62,9 +62,7 @@ def getmusicalbum():
 
 
 def setmusicalbum(musicAlbum):
-    if MusicRecords.__musicAlbum__ is None:
-        MusicRecords.__musicAlbum__ = ""
-    return MusicRecords.__musicAlbum__
+    MusicRecords.__musicAlbum__ = musicAlbum
 
 
 def getmusicdesc():
